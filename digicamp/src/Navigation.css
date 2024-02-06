@@ -43,10 +43,23 @@
 }
 
 .toggle-container.toggled {
-  background-color: #4CAF50;
+  background-color: #4caf50;
 }
 
 .toggle-button.toggled {
   transform: translateX(25px);
   background-color: white;
+}
+
+.cube-net {
+  max-width: 100%;
+  max-height: 100px;
+}
+
+ul {
+  text-align: center;
+}
+
+li {
+  text-align: left;
 }
