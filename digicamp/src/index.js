@@ -4,6 +4,7 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import Navigation from "./Navigation";
+import AnimationControls from "./AnimationController.js";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -11,6 +12,7 @@ root.render(
     <Navigation />
     <div className="container">
       <App />
+      <AnimationControls />
     </div>
   </React.StrictMode>
 );
