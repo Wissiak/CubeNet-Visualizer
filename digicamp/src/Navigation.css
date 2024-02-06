@@ -1,7 +1,52 @@
-
 .hamburger {
-    z-index: 2;
-    position: fixed;
-    top: 16px;
-    left: 16px;
-  }
+  z-index: 2;
+  position: fixed;
+  top: 16px;
+  left: 16px;
+}
+
+.toggle-sides-container {
+  z-index: 2;
+  margin-top: 16px;
+  left: 16px;
+  padding-bottom: 16px;
+}
+
+.toggle-sides-label {
+  z-index: 2;
+  margin-left: 16px;
+  margin-top: 10px;
+}
+
+.toggle-container {
+  vertical-align: middle;
+  z-index: 2;
+  width: 50px;
+  height: 25px;
+  border-radius: 25px;
+  background-color: #ccc;
+  box-sizing: border-box;
+  transition: background-color 0.3s ease;
+  display: inline-block;
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: 10px;
+}
+
+.toggle-button {
+  width: 25px;
+  height: 20px;
+  background-color: gray;
+  border-radius: 50%;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+  padding-top: 5px;
+}
+
+.toggle-container.toggled {
+  background-color: #4CAF50;
+}
+
+.toggle-button.toggled {
+  transform: translateX(25px);
+  background-color: white;
+}
