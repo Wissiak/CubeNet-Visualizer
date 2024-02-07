@@ -47,6 +47,10 @@ function Navigation() {
             <label className="toggle-sides-label">Enable Highlighting</label>
             <Toggle></Toggle>
           </div>
+          <div className="toggle-sides-container">
+            <label className="toggle-sides-label">Skip Reverse Animation</label>
+            <Toggle></Toggle>
+          </div>
           <SubMenu label="Cube Nets">
             <MenuItem> Net 1 </MenuItem>
             <img

@@ -9,27 +9,59 @@ import * as THREE from "three";
 
 let currentTime = 0
 
-function Scene({step}) {
+const Directions = {
+  Forward: "forward",
+  Backward: "backward",
+}
+
+function Scene({step, direction, shouldPlayReverseAnim = true}) {
   const gltf = useLoader(GLTFLoader, "/nets/case_01.glb");
   const grid = useLoader(GLTFLoader, "/nets/case_01_grid.glb");
 
   const mixer = new THREE.AnimationMixer(gltf.scene);
-  
+
   gltf.animations.forEach((clip) => {
     const action = mixer.clipAction(clip);
+    action.reset();
+    action.setLoop(THREE.LoopOnce);
+    action.clampWhenFinished = true;
     action.play();
   });
-  
+
   //workaround: when the component is updated this value rests the same
   mixer?.setTime(currentTime)
 
   useFrame((state, delta) => {
-    if(mixer?.time + delta < step - 1){
-      mixer?.update(delta)
-    }else{
-      mixer?.setTime(step - 1)
+    switch (direction) {
+      case Directions.Forward:
+        if (step - 1 - mixer?.time > 1) {
+          // skip animation steps if difference too large
+          mixer?.setTime(step - 1);
+        }
+        if (mixer?.time + delta < step - 1){
+          mixer?.update(delta);
+        } else {
+          mixer?.setTime(step - 1);
+        }
+        currentTime = mixer?.time
+        break;
+      case Directions.Backward:
+        if (shouldPlayReverseAnim) {
+          if (mixer?.time - step + 1 > 1) {
+            // skip animation steps if difference too large
+            mixer?.setTime(step - 1);
+          }
+          if (mixer?.time - delta > step - 1){
+            mixer?.update(-delta);
+          } else {
+            mixer?.setTime(step - 1);
+          }
+          currentTime = mixer?.time
+        } else {
+          mixer?.setTime(step - 1);
+        }
+        break;
     }
-    currentTime = mixer?.time
   })
 
   return (
@@ -42,7 +74,16 @@ function Scene({step}) {
 
 function App({step}) {
   const [currentStep, setStep] = useState(1);
+  const [direction, setDirection] = useState(Directions.Forward);
   const cameraRef = useRef();
+
+  function changeDirection(old, next) {
+    if (old < next) {
+      setDirection(Directions.Forward);
+    } else {
+      setDirection(Directions.Backward);
+    }
+  }
 
   return (
     <>
@@ -66,11 +107,11 @@ function App({step}) {
           decay={0}
           intensity={Math.PI}
         />
-        <Scene step={currentStep}/>
+        <Scene step={currentStep} direction={direction}/>
         <pointLight position={[-10, -10, -10]} decay={0} intensity={Math.PI} />
       </Canvas>
 
-      <AnimationControls setStep={setStep} currentStep={currentStep}/>
+      <AnimationControls setStep={setStep} currentStep={currentStep} onStepChange={changeDirection}/>
     </>
   );
 }

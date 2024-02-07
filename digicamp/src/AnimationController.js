@@ -2,15 +2,17 @@ import React from "react";
 import "./AnimationController.css";
 
 
-function AnimationControls({setStep, currentStep}) {
+function AnimationControls({setStep, currentStep, onStepChange}) {
 
   const numberOfSteps = 6
 
   function nextStep() {
+    onStepChange(currentStep, currentStep + 1);
     setStep(Math.min(currentStep + 1, numberOfSteps));
   }
 
   function prevStep() {
+    onStepChange(currentStep, currentStep - 1);
     setStep(Math.max(currentStep - 1,  1));
   }
 
