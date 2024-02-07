@@ -107,7 +107,7 @@ function App({config}) {
         <pointLight position={[-10, -10, -10]} decay={0} intensity={Math.PI} />
       </Canvas>
 
-      <AnimationControls setStep={setStep} currentStep={currentStep} onStepChange={changeDirection}/>
+      <AnimationControls setStep={setStep} currentStep={currentStep} onStepChange={changeDirection} config={config}/>
     </>
   );
 }

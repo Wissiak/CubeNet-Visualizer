@@ -3,7 +3,7 @@ import "./AnimationController.css";
 
 let lastAction = new Date().getTime() - 1000; 
 
-function AnimationControls({ setStep, currentStep, onStepChange }) {
+function AnimationControls({ setStep, currentStep, onStepChange, config }) {
   const numberOfSteps = 6;
 
   function nextStep() {
@@ -19,7 +19,7 @@ function AnimationControls({ setStep, currentStep, onStepChange }) {
 
   function prevStep() {
     const now = new Date().getTime();
-    if (now - lastAction < 1000) {
+    if (!config.skipReverseAnim && now - lastAction < 1000) {
       // wait until animation is over to not skip any steps
       return;
     }
