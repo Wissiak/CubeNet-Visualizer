@@ -4,15 +4,13 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import Navigation from "./Navigation";
-import AnimationControls from "./AnimationController.js";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <Navigation />
     <div className="container">
-      <App />
-      <AnimationControls />
+      <App/>
     </div>
   </React.StrictMode>
 );

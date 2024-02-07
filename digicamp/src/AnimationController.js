@@ -1,16 +1,17 @@
-import React, { useState} from "react";
+import React from "react";
 import "./AnimationController.css";
 
-function AnimationControls() {
-  const numberOfSteps = 5;
-  const [currentStep, setStep] = useState(1);
+
+function AnimationControls({setStep, currentStep}) {
+
+  const numberOfSteps = 6
 
   function nextStep() {
-    setStep(currentStep + 1);
+    setStep(Math.min(currentStep + 1, numberOfSteps));
   }
 
   function prevStep() {
-    setStep(currentStep - 1);
+    setStep(Math.max(currentStep - 1,  1));
   }
 
   return (
@@ -30,4 +31,4 @@ function AnimationControls() {
   )
 }
 
-export default AnimationControls;
+export { AnimationControls };
