@@ -6,6 +6,7 @@
   width: 100vw;
   flex-flow: row;
   margin: 0;
+  height: 50px;
 }
 
 .animation-control button {
@@ -14,6 +15,12 @@
   font-size: 1em;
 }
 
+
+.chevron {
+  position: absolute;
+  height: 50px;
+  cursor: pointer;
+}
 #control-prev {
   left: 15vw;
 }
