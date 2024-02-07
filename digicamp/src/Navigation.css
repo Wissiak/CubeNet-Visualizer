@@ -5,6 +5,10 @@
   left: 16px;
 }
 
+.hamburger:hover, button:hover, .toggle-button:hover {
+  cursor: pointer;
+}
+
 .toggle-sides-container {
   z-index: 2;
   margin-top: 16px;

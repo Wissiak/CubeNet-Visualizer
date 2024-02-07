@@ -31,7 +31,7 @@ function Navigation() {
       <img
         src={hamburger}
         width={40}
-        style={{ left: collapsed ? 10 : sidebarWidth + 10 }}
+        style={{ left: collapsed ? 16 : sidebarWidth + 16 }}
         className="hamburger"
         onClick={() => setCollapsed(!collapsed)}
         alt="hamburger menu icon"
