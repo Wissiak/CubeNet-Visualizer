@@ -7,11 +7,10 @@ function activateCubeNet(netNumber) {
   console.log("Activating net number " + netNumber);
 }
 
-function Navigation() {
+function Navigation({config}) {
   const [collapsed, setCollapsed] = useState(true);
-  function Toggle() {
-    const [isToggled, setIsToggled] = useState(false);
 
+  function Toggle({isToggled, setIsToggled}) {
     const toggle = () => {
       setIsToggled(!isToggled);
     };
@@ -25,7 +24,9 @@ function Navigation() {
       </div>
     );
   }
+
   const sidebarWidth = 250;
+
   return (
     <span>
       <img
@@ -45,11 +46,11 @@ function Navigation() {
         <Menu>
           <div className="toggle-sides-container">
             <label className="toggle-sides-label">Enable Highlighting</label>
-            <Toggle></Toggle>
+            <Toggle isToggled={config.enableHighlight} setIsToggled={config.setEnableHighlight} />
           </div>
           <div className="toggle-sides-container">
             <label className="toggle-sides-label">Skip Reverse Animation</label>
-            <Toggle></Toggle>
+            <Toggle isToggled={config.skipReverseAnim} setIsToggled={config.setSkipReverseAnim} />
           </div>
           <SubMenu label="Cube Nets">
             <MenuItem> Net 1 </MenuItem>

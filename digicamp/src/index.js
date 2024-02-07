@@ -1,17 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import Navigation from "./Navigation";
 
+function Main() {
+  const [skipReverseAnim, setSkipReverseAnim] = useState(false);
+  const [enableHighlight, setEnableHighlight] = useState(false);
+  const config = {
+    skipReverseAnim: skipReverseAnim,
+    setSkipReverseAnim: setSkipReverseAnim,
+    enableHighlight: enableHighlight,
+    setEnableHighlight: setEnableHighlight
+  };
+  return (
+    <>
+      <Navigation config={config}/>
+      <div className="container">
+        <App config={config}/>
+      </div>
+    </>
+  )
+}
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <Navigation />
-    <div className="container">
-      <App/>
-    </div>
+    <Main />
   </React.StrictMode>
 );
 

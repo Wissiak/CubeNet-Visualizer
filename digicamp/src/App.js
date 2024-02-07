@@ -72,17 +72,13 @@ function Scene({step, direction, shouldPlayReverseAnim = true}) {
   );
 }
 
-function App({step}) {
+function App({config}) {
   const [currentStep, setStep] = useState(1);
   const [direction, setDirection] = useState(Directions.Forward);
   const cameraRef = useRef();
 
   function changeDirection(old, next) {
-    if (old < next) {
-      setDirection(Directions.Forward);
-    } else {
-      setDirection(Directions.Backward);
-    }
+      setDirection(old < next ? Directions.Forward : Directions.Backward);
   }
 
   return (
@@ -107,7 +103,7 @@ function App({step}) {
           decay={0}
           intensity={Math.PI}
         />
-        <Scene step={currentStep} direction={direction}/>
+        <Scene step={currentStep} direction={direction} shouldPlayReverseAnim={!config.skipReverseAnim}/>
         <pointLight position={[-10, -10, -10]} decay={0} intensity={Math.PI} />
       </Canvas>
 
