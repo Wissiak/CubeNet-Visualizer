@@ -9,7 +9,8 @@ import ar from "./assets/ar-symbol.svg";
 import * as THREE from "three";
 import NetHelper from "./NetHelper.js";
 
-let currentTime = 0
+let currentTime = 0;
+let lastShoudlPlayAnim = true;
 
 const Directions = {
   Forward: "forward",
@@ -44,6 +45,10 @@ function Scene({ config, step, direction, shouldPlayAnim = true, backgroundTextu
 
   useFrame((state, delta) => {
     setIsPlaying(false)
+    if (lastShoudlPlayAnim != shouldPlayAnim) {
+      lastShoudlPlayAnim = shouldPlayAnim;
+      mixer?.setTime(step - 1);
+    }
     if (shouldPlayAnim) {
       switch (direction) {
         case Directions.Forward:
