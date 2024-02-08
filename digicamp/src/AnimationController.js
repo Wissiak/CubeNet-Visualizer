@@ -8,10 +8,6 @@ function AnimationControls({ setStep, currentStep, onStepChange, config }) {
 
   function nextStep() {
     const now = new Date().getTime();
-    if (now - lastAction < 1000) {
-      // wait until animation is over to not skip any steps
-      return;
-    }
     onStepChange(currentStep, currentStep + 1);
     setStep(Math.min(currentStep + 1, numberOfSteps));
     lastAction = now;
@@ -19,10 +15,6 @@ function AnimationControls({ setStep, currentStep, onStepChange, config }) {
 
   function prevStep() {
     const now = new Date().getTime();
-    if (!config.skipReverseAnim && now - lastAction < 1000) {
-      // wait until animation is over to not skip any steps
-      return;
-    }
     onStepChange(currentStep, currentStep - 1);
     setStep(Math.max(currentStep - 1, 1));
     lastAction = now;

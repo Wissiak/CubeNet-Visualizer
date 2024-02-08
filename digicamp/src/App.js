@@ -16,11 +16,15 @@ const Directions = {
   Backward: "backward",
 }
 
-function Scene({ config, step, direction, shouldPlayReverseAnim = true, backgroundTexture }) {
+function Scene({config, step, direction, shouldPlayReverseAnim = true, backgroundTexture}) {
+  const [isPlaying, setIsPlaying] = useState(true);
+
+  useEffect(() => {
+    setIsPlaying(true);
+  }, [step]);
+
   const netPath = `/nets/net_${String(config.net).padStart(2, '0')}/`;
   const gltf = useLoader(GLTFLoader, netPath + "net.glb");
-
-
   const grid = useLoader(GLTFLoader, netPath + "grid.glb");
 
   const mixer = new THREE.AnimationMixer(gltf.scene);
@@ -43,14 +47,12 @@ function Scene({ config, step, direction, shouldPlayReverseAnim = true, backgrou
   mixer?.setTime(currentTime)
 
   useFrame((state, delta) => {
+    setIsPlaying(false)
     switch (direction) {
       case Directions.Forward:
-        if (step - 1 - mixer?.time > 1) {
-          // skip animation steps if difference too large
-          mixer?.setTime(step - 1);
-        }
-        if (mixer?.time + delta < step - 1) {
+        if (mixer?.time + delta < step - 1){
           mixer?.update(delta);
+          setIsPlaying(true);
         } else {
           mixer?.setTime(step - 1);
         }
@@ -58,12 +60,9 @@ function Scene({ config, step, direction, shouldPlayReverseAnim = true, backgrou
         break;
       case Directions.Backward:
         if (shouldPlayReverseAnim) {
-          if (mixer?.time - step + 1 > 1) {
-            // skip animation steps if difference too large
-            mixer?.setTime(step - 1);
-          }
-          if (mixer?.time - delta * 2 > step - 1) {
-            mixer?.update(-delta * 2);
+          if (mixer?.time - delta*2 > step - 1){
+            mixer?.update(-delta*2);
+            setIsPlaying(true);
           } else {
             mixer?.setTime(step - 1);
           }
@@ -80,7 +79,7 @@ function Scene({ config, step, direction, shouldPlayReverseAnim = true, backgrou
       <group dispose={null}>
         <primitive object={gltf.scene} />
         <primitive object={grid.scene} />
-        {config.enableHighlight ? <NetHelper netPath={netPath} step={step} /> : <></>}
+        {config.enableHighlight && !isPlaying ? <NetHelper netPath={netPath} step={step} active/> : <></>}
         {backgroundTexture && (
           <mesh position={[0, 0, -5]} // Position the mesh behind your objects
           >
