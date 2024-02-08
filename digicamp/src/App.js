@@ -26,7 +26,7 @@ function Scene({ config, step, direction, shouldPlayAnim = true, backgroundTextu
     }
   }, [step, shouldPlayAnim]);
 
-  const netPath = `/nets/net_${String(config.net).padStart(2, '0')}/`;
+  const netPath = `${window.location.pathname}nets/net_${String(config.net).padStart(2, '0')}/`;
   const gltf = useLoader(GLTFLoader, netPath + "net.glb");
   const grid = useLoader(GLTFLoader, netPath + "grid.glb");
 
