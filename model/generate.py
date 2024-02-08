@@ -151,7 +151,7 @@ from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 
 hide_grid = True
 show_3d = False
-images_per_class = 20
+images_per_class = 400
 mode = "val"
 my_dpi = 96
 
@@ -331,7 +331,7 @@ for j, points in enumerate([pts1_w, pts2_w, pts3_w, pts4_w, pts5_w, pts6_w, pts7
         bbox = np.array([br, tr, tl, bl, br])
         print("-------------------")
         print(f"Class {j+1}, image {generated_images+1}")
-        ax.plot(bbox[:,0], bbox[:,1], 'r-')
+        #ax.plot(bbox[:,0], bbox[:,1], 'r-')
         plt.xlim(0, 640)
         plt.ylim(0, 640)
         plt.grid(False)

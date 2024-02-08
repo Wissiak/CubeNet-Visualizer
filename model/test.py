@@ -1,9 +1,9 @@
 from ultralytics import YOLO
 
-model = YOLO('/opt/homebrew/runs/detect/train2/weights/last.pt')
+model = YOLO('/opt/homebrew/runs/obb/train4/weights/best.pt')
 
 #model(source="input.mp4", show=True, conf=0.1, save=True, device='mps')
-results = model("wurfelnetz-2/test/images/Screenshot-2024-02-05-at-19-24-43_png.rf.87dfa6c72a0fe50a6a5fff309f3134e4.jpg", conf=0.6)
+results = model("dataset/train/images/1-3.png", conf=0.6)
 
 print(results)
 
