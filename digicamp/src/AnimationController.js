@@ -22,12 +22,12 @@ function AnimationControls({ setStep, currentStep, onStepChange }) {
         prevStep();
       }
     };
-    
+
     document.addEventListener('keydown', handleKeyDown);
     return () => {
         document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [currentStep]);
+  }, [currentStep, prevStep, nextStep]);
 
   return (
     <div className="animation-control">
