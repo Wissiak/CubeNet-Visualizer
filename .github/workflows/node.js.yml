@@ -49,6 +49,7 @@ jobs:
     
     - name: Archive production artifacts
       uses: actions/upload-pages-artifact@v1
+      name: github-pages
       with:
         path: digicamp/build
     - name: Deploy to GitHub Pages
