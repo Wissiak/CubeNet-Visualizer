@@ -16,7 +16,7 @@ const Directions = {
   Backward: "backward",
 }
 
-function Scene({config, step, direction, shouldPlayAnim = true, backgroundTexture}) {
+function Scene({ config, step, direction, shouldPlayAnim = true, backgroundTexture }) {
   const [isPlaying, setIsPlaying] = useState(true);
 
   useEffect(() => {
@@ -30,11 +30,6 @@ function Scene({config, step, direction, shouldPlayAnim = true, backgroundTextur
   const grid = useLoader(GLTFLoader, netPath + "grid.glb");
 
   const mixer = new THREE.AnimationMixer(gltf.scene);
-
-  const geometry = new THREE.PlaneGeometry(100, 100);
-  const material = new THREE.MeshBasicMaterial({ attach: "material", map: { backgroundTexture } });
-  const plane = new THREE.Mesh(geometry, material);
-
 
   gltf.animations.forEach((clip) => {
     const action = mixer.clipAction(clip);
@@ -52,7 +47,7 @@ function Scene({config, step, direction, shouldPlayAnim = true, backgroundTextur
     if (shouldPlayAnim) {
       switch (direction) {
         case Directions.Forward:
-          if (mixer?.time + delta < step - 1){
+          if (mixer?.time + delta < step - 1) {
             mixer?.update(delta);
             setIsPlaying(true);
           } else {
@@ -61,8 +56,8 @@ function Scene({config, step, direction, shouldPlayAnim = true, backgroundTextur
           currentTime = mixer?.time;
           break;
         case Directions.Backward:
-          if (mixer?.time - delta*2 > step - 1){
-            mixer?.update(-delta*2);
+          if (mixer?.time - delta * 2 > step - 1) {
+            mixer?.update(-delta * 2);
             setIsPlaying(true);
           } else {
             mixer?.setTime(step - 1);
@@ -77,15 +72,11 @@ function Scene({config, step, direction, shouldPlayAnim = true, backgroundTextur
 
   return (
     <>
-    <group dispose={null}>
-    <primitive object={gltf.scene} />
-    <primitive object={grid.scene} />
-    {config.enableHighlight && !isPlaying ? <NetHelper netPath={netPath} step={step} active/> : <></>}
-    {backgroundTexture && (
-      <mesh position={[0, 0, -5]} // Position the mesh behind your objects
-      >
-      </mesh>)}
-    </group>
+      <group dispose={null}>
+        <primitive object={gltf.scene} />
+        <primitive object={grid.scene} />
+        {config.enableHighlight && !isPlaying ? <NetHelper netPath={netPath} step={step} active /> : <></>}
+      </group>
     </>
   );
 }
@@ -93,7 +84,8 @@ function Scene({config, step, direction, shouldPlayAnim = true, backgroundTextur
 function App({ config }) {
   const [currentStep, setStep] = useState(1);
   const [direction, setDirection] = useState(Directions.Forward);
-  const [backgroundTexture, setBackgroundTexture] = useState(null);
+  const [cameraEnabled, setCameraEnabled] = useState(false);
+  const videoRef = useRef(null);
   const cameraRef = useRef();
 
   function changeDirection(old, next) {
@@ -105,28 +97,33 @@ function App({ config }) {
     setDirection(Directions.Forward);
   }, [config.net]);
 
-  const changeBGToFeed = async () => {
-    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-        const video = document.createElement('video');
-        video.srcObject = stream;
-        video.play();
-
-        const texture = new THREE.VideoTexture(video);
-        texture.minFilter = THREE.LinearFilter;
-        texture.format = THREE.RGBAFormat;
-
-        setBackgroundTexture(texture);
-      } catch (error) {
-        console.error("Error accessing the camera: ", error);
+  const toggleCameraFeed = async () => {
+    if (cameraEnabled) {
+      const tracks = videoRef.current.srcObject.getTracks();
+      tracks.forEach(track => track.stop());
+      videoRef.current.srcObject = null;
+      setCameraEnabled(false);
+    } else {
+      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+          if (videoRef.current) {
+            videoRef.current.srcObject = stream;
+            setCameraEnabled(true);
+          }
+        } catch (err) {
+          console.error("An error occurred: " + err);
+        }
       }
     }
   };
 
+  const videoBackgroundStyle = cameraEnabled ? {} : { backgroundColor: 'white' };
+
   return (
     <>
-      <img src={ar} width={60} className="ar-symbol" onClick={changeBGToFeed} />
+      <video playsInline autoPlay muted ref={videoRef} className="bg-video" style={videoBackgroundStyle} />
+      <img src={ar} width={60} className="ar-symbol" onClick={toggleCameraFeed} />
       <Canvas style={{ width: "100%", height: "100%" }}>
         <OrbitControls makeDefault
           target={[0, 0.5, 0]}
