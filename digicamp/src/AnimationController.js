@@ -1,19 +1,18 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import "./AnimationController.css";
 
 function AnimationControls({ setStep, currentStep, onStepChange }) {
   const numberOfSteps = 6;
 
-
-  const nextStep = useCallback(() => {
+  function nextStep() {
     onStepChange(currentStep, currentStep + 1);
     setStep(Math.min(currentStep + 1, numberOfSteps));
-  }, [])
+  }
 
-  const prevStep = useCallback(() => {
+  function prevStep() {
     onStepChange(currentStep, currentStep - 1);
     setStep(Math.max(currentStep - 1, 1));
-  }, [])
+  }
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -28,7 +27,9 @@ function AnimationControls({ setStep, currentStep, onStepChange }) {
     return () => {
         document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [currentStep, prevStep, nextStep]);
+
+    // eslint-disable-next-line
+  }, [currentStep]);
 
   return (
     <div className="animation-control">
