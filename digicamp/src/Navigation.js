@@ -17,7 +17,7 @@ function Navigation({config}) {
     <span>
       <img
         src={hamburger}
-        width={40}
+        width={50}
         style={{ left: collapsed ? 16 : sidebarWidth + 16 }}
         className="hamburger"
         onClick={() => setCollapsed(!collapsed)}

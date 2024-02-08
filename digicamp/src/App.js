@@ -123,7 +123,7 @@ function App({ config }) {
   return (
     <>
       <video playsInline autoPlay muted ref={videoRef} className="bg-video" style={videoBackgroundStyle} />
-      <img src={ar} width={60} className="ar-symbol" onClick={toggleCameraFeed} />
+      <img src={ar} width={45} className="ar-symbol" onClick={toggleCameraFeed} />
       <Canvas style={{ width: "100%", height: "100%" }}>
         <OrbitControls makeDefault
           target={[0, 0.5, 0]}

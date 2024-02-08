@@ -32,8 +32,8 @@ h1{
   z-index: 2;
   padding: 16px;
   display: flex;
-    justify-content: space-between;
-    align-items: center;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .toggle-sides-label {
@@ -79,16 +79,26 @@ h1{
   max-height: 100px;
 }
 
-.ps-sidebar-container{
+.ps-sidebar-container {
+  border-style: none solid none none;
+  border-color: #eee;
+  transition: all 1s ease;
+  margin-left: 0;
+
   background-color: rgb(255, 255, 255, 1) !important;
 }
 
+.ps-collapsed {
+  margin-left: -250px;
+  width: 250px !important;
+  min-width: 250px !important;
+}
 
-.ps-submenu-expand-icon{
+.ps-submenu-expand-icon {
   padding-bottom: 7px;
 }
 
-.menuitem-cubenet{
+.menuitem-cubenet {
   cursor: pointer;
   text-align: center;
   margin: 20px;
