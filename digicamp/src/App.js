@@ -17,8 +17,14 @@ const Directions = {
 }
 
 function Scene({config, step, direction, shouldPlayAnim = true, backgroundTexture}) {
-  const [guideArrowStep, setGuideArrowStep] = useState(step);
   const [isPlaying, setIsPlaying] = useState(true);
+
+  useEffect(() => {
+    if (shouldPlayAnim) {
+      setIsPlaying(true);
+    }
+  }, [step]);
+
   const netPath = `/nets/net_${String(config.net).padStart(2, '0')}/`;
   const gltf = useLoader(GLTFLoader, netPath + "net.glb");
   const grid = useLoader(GLTFLoader, netPath + "grid.glb");
@@ -42,6 +48,7 @@ function Scene({config, step, direction, shouldPlayAnim = true, backgroundTextur
   mixer?.setTime(currentTime)
 
   useFrame((state, delta) => {
+    setIsPlaying(false)
     if (shouldPlayAnim) {
       switch (direction) {
         case Directions.Forward:
@@ -50,10 +57,8 @@ function Scene({config, step, direction, shouldPlayAnim = true, backgroundTextur
             setIsPlaying(true);
           } else {
             mixer?.setTime(step - 1);
-            setIsPlaying(false);
-            setGuideArrowStep(step);
           }
-          currentTime = mixer?.time
+          currentTime = mixer?.time;
           break;
         case Directions.Backward:
           if (mixer?.time - delta*2 > step - 1){
@@ -61,21 +66,12 @@ function Scene({config, step, direction, shouldPlayAnim = true, backgroundTextur
             setIsPlaying(true);
           } else {
             mixer?.setTime(step - 1);
-            setIsPlaying(false);
-            setGuideArrowStep(step);
           }
-          currentTime = mixer?.time
+          currentTime = mixer?.time;
           break;
       }
     } else {
-      switch (direction) {
-        case Directions.Forward:
-          mixer?.setTime(step - 1);
-          break;
-        case Directions.Backward:
-          mixer?.setTime(step - 1);
-          break;
-      }
+      mixer?.setTime(step - 1);
     }
   })
 
@@ -84,7 +80,7 @@ function Scene({config, step, direction, shouldPlayAnim = true, backgroundTextur
     <group dispose={null}>
     <primitive object={gltf.scene} />
     <primitive object={grid.scene} />
-    {config.enableHighlight && !isPlaying ? <NetHelper netPath={netPath} step={guideArrowStep} active/> : <></>}
+    {config.enableHighlight && !isPlaying ? <NetHelper netPath={netPath} step={step} active/> : <></>}
     {backgroundTexture && (
       <mesh position={[0, 0, -5]} // Position the mesh behind your objects
       >
