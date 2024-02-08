@@ -1,0 +1,7 @@
+wurfelnetz*
+dataset*
+model/train.py
+model/test.py
+model/test.py
+model/*.png
+yolo*.pt
