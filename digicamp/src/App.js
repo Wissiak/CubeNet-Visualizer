@@ -4,7 +4,8 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { useLoader } from "@react-three/fiber";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
-import {AnimationControls} from "./AnimationController.js";
+import { AnimationControls } from "./AnimationController.js";
+import ar from "./assets/ar-symbol.svg";
 import * as THREE from "three";
 import NetHelper from "./NetHelper.js";
 
@@ -15,7 +16,7 @@ const Directions = {
   Backward: "backward",
 }
 
-function Scene({config, step, direction, shouldPlayReverseAnim = true}) {
+function Scene({ config, step, direction, shouldPlayReverseAnim = true, backgroundTexture }) {
   const netPath = `/nets/net_${String(config.net).padStart(2, '0')}/`;
   const gltf = useLoader(GLTFLoader, netPath + "net.glb");
 
@@ -23,6 +24,10 @@ function Scene({config, step, direction, shouldPlayReverseAnim = true}) {
   const grid = useLoader(GLTFLoader, netPath + "grid.glb");
 
   const mixer = new THREE.AnimationMixer(gltf.scene);
+
+  const geometry = new THREE.PlaneGeometry(100, 100);
+  const material = new THREE.MeshBasicMaterial({ attach: "material", map: { backgroundTexture } });
+  const plane = new THREE.Mesh(geometry, material);
 
 
   gltf.animations.forEach((clip) => {
@@ -33,7 +38,7 @@ function Scene({config, step, direction, shouldPlayReverseAnim = true}) {
     action.play();
   });
 
-    
+
   //workaround: when the component is updated this value rests the same
   mixer?.setTime(currentTime)
 
@@ -44,7 +49,7 @@ function Scene({config, step, direction, shouldPlayReverseAnim = true}) {
           // skip animation steps if difference too large
           mixer?.setTime(step - 1);
         }
-        if (mixer?.time + delta < step - 1){
+        if (mixer?.time + delta < step - 1) {
           mixer?.update(delta);
         } else {
           mixer?.setTime(step - 1);
@@ -57,8 +62,8 @@ function Scene({config, step, direction, shouldPlayReverseAnim = true}) {
             // skip animation steps if difference too large
             mixer?.setTime(step - 1);
           }
-          if (mixer?.time - delta*2 > step - 1){
-            mixer?.update(-delta*2);
+          if (mixer?.time - delta * 2 > step - 1) {
+            mixer?.update(-delta * 2);
           } else {
             mixer?.setTime(step - 1);
           }
@@ -75,19 +80,24 @@ function Scene({config, step, direction, shouldPlayReverseAnim = true}) {
       <group dispose={null}>
         <primitive object={gltf.scene} />
         <primitive object={grid.scene} />
-        {config.enableHighlight ? <NetHelper netPath={netPath} step={step}/> : <></>}
+        {config.enableHighlight ? <NetHelper netPath={netPath} step={step} /> : <></>}
+        {backgroundTexture && (
+          <mesh position={[0, 0, -5]} // Position the mesh behind your objects
+          >
+          </mesh>)}
       </group>
     </>
   );
 }
 
-function App({config}) {
+function App({ config }) {
   const [currentStep, setStep] = useState(1);
   const [direction, setDirection] = useState(Directions.Forward);
+  const [backgroundTexture, setBackgroundTexture] = useState(null);
   const cameraRef = useRef();
 
   function changeDirection(old, next) {
-      setDirection(old < next ? Directions.Forward : Directions.Backward);
+    setDirection(old < next ? Directions.Forward : Directions.Backward);
   }
 
   useEffect(() => {
@@ -95,15 +105,35 @@ function App({config}) {
     setDirection(Directions.Forward);
   }, [config.net]);
 
+  const changeBGToFeed = async () => {
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        const video = document.createElement('video');
+        video.srcObject = stream;
+        video.play();
+
+        const texture = new THREE.VideoTexture(video);
+        texture.minFilter = THREE.LinearFilter;
+        texture.format = THREE.RGBAFormat;
+
+        setBackgroundTexture(texture);
+      } catch (error) {
+        console.error("Error accessing the camera: ", error);
+      }
+    }
+  };
+
   return (
     <>
+      <img src={ar} width={60} className="ar-symbol" onClick={changeBGToFeed} />
       <Canvas style={{ width: "100%", height: "100%" }}>
-        <OrbitControls makeDefault 
-            target={[0, 0.5, 0]}
-            maxPolarAngle={Math.PI/2-0.05}
-            minDistance={1.5}
-            maxDistance={40}
-          />
+        <OrbitControls makeDefault
+          target={[0, 0.5, 0]}
+          maxPolarAngle={Math.PI / 2 - 0.05}
+          minDistance={1.5}
+          maxDistance={40}
+        />
 
         <PerspectiveCamera
           ref={cameraRef}
@@ -111,7 +141,7 @@ function App({config}) {
           fov={50} // Adjust the FOV to your desired value (in degrees)
           position={[0, 5, 5]} // Set the initial position of the camera higher
         />
-        
+
         <ambientLight intensity={Math.PI / 2} />
         <spotLight
           position={[10, 10, 10]}
@@ -120,11 +150,11 @@ function App({config}) {
           decay={0}
           intensity={Math.PI}
         />
-        <Scene step={currentStep} direction={direction} shouldPlayReverseAnim={!config.skipReverseAnim} config={config}/>
+        <Scene step={currentStep} direction={direction} shouldPlayReverseAnim={!config.skipReverseAnim} config={config} />
         <pointLight position={[-10, -10, -10]} decay={0} intensity={Math.PI} />
       </Canvas>
 
-      <AnimationControls setStep={setStep} currentStep={currentStep} onStepChange={changeDirection} config={config}/>
+      <AnimationControls setStep={setStep} currentStep={currentStep} onStepChange={changeDirection} config={config} />
     </>
   );
 }

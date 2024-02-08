@@ -36,3 +36,9 @@
     transform: rotate(360deg);
   }
 }
+
+.ar-symbol {
+  float: right;
+  margin-top: 16px;
+  margin-right: 30px;
+}
