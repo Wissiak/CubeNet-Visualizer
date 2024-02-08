@@ -151,7 +151,8 @@ from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 
 hide_grid = True
 show_3d = False
-images_per_class = 500
+images_per_class = 20
+mode = "val"
 my_dpi = 96
 
 f = 80  # Focal length
@@ -339,9 +340,9 @@ for j, points in enumerate([pts1_w, pts2_w, pts3_w, pts4_w, pts5_w, pts6_w, pts7
 
 
         #plt.pause(0.01)
-        plt.savefig(f"dataset/train/images/{j+1}-{generated_images}.png", dpi=my_dpi)
+        plt.savefig(f"dataset/{mode}/images/{j+1}-{generated_images}.png", dpi=my_dpi)
         plt.close()
 
-        text = f"{j+1} {br[0]} {br[1]} {tr[0]} {tr[1]} {tl[0]} {tl[1]} {bl[0]} {bl[1]}"
-        with open(f"dataset/train/labels/{j+1}-{generated_images}.txt", "w") as file:
+        text = f"{j+1} {br[0]/640} {br[1]/640} {tr[0]/640} {tr[1]/640} {tl[0]/640} {tl[1]/640} {bl[0]/640} {bl[1]/640}"
+        with open(f"dataset/{mode}/labels/{j+1}-{generated_images}.txt", "w") as file:
             file.write(text)
