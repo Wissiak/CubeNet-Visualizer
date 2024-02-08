@@ -45,7 +45,7 @@ function Scene({ config, step, direction, shouldPlayAnim = true, backgroundTextu
 
   useFrame((state, delta) => {
     setIsPlaying(false)
-    if (lastShoudlPlayAnim != shouldPlayAnim) {
+    if (lastShoudlPlayAnim !== shouldPlayAnim) {
       lastShoudlPlayAnim = shouldPlayAnim;
       mixer?.setTime(step - 1);
     }
