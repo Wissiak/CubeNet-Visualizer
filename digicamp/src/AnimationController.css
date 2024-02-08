@@ -29,6 +29,16 @@
   right: 15vw;
 }
 
+#control-next[disabled] {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+#control-prev[disabled] {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
 #control-status {
   margin: 0 auto;
   align-self: center;
