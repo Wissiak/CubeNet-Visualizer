@@ -3,7 +3,7 @@ import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 import hamburger from "./assets/burger-menu.svg";
 import "./Navigation.css";
 
-function Navigation({config}) {
+function Navigation({ config }) {
   const [collapsed, setCollapsed] = useState(true);
 
   function activateCubeNet(netNumber) {
@@ -31,7 +31,7 @@ function Navigation({config}) {
       >
         <Menu>
           <div id="titel-bar">
-            <img src="./logo192.png"/>
+            <img src="./logo192.png" />
             <h1>CubeNet</h1>
           </div>
           <div class="line"></div>
@@ -48,23 +48,23 @@ function Navigation({config}) {
           </div>
           <div class="line"></div>
           <SubMenu label="Cube Nets">
-            <MenuItemCubeNet number={1} activateCubeNet={activateCubeNet}/>
-            <MenuItemCubeNet number={2} activateCubeNet={activateCubeNet}/>
-            <MenuItemCubeNet number={3} activateCubeNet={activateCubeNet}/>
-            <MenuItemCubeNet number={4} activateCubeNet={activateCubeNet}/>
-            <MenuItemCubeNet number={5} activateCubeNet={activateCubeNet}/>
-            <MenuItemCubeNet number={6} activateCubeNet={activateCubeNet}/>
-            <MenuItemCubeNet number={7} activateCubeNet={activateCubeNet}/>
-            <MenuItemCubeNet number={8} activateCubeNet={activateCubeNet}/>
-            <MenuItemCubeNet number={9} activateCubeNet={activateCubeNet}/>
-            <MenuItemCubeNet number={10} activateCubeNet={activateCubeNet}/>
-            <MenuItemCubeNet number={11} activateCubeNet={activateCubeNet}/>
+            <MenuItemCubeNet number={1} activateCubeNet={activateCubeNet} />
+            <MenuItemCubeNet number={2} activateCubeNet={activateCubeNet} />
+            <MenuItemCubeNet number={3} activateCubeNet={activateCubeNet} />
+            <MenuItemCubeNet number={4} activateCubeNet={activateCubeNet} />
+            <MenuItemCubeNet number={5} activateCubeNet={activateCubeNet} />
+            <MenuItemCubeNet number={6} activateCubeNet={activateCubeNet} />
+            <MenuItemCubeNet number={7} activateCubeNet={activateCubeNet} />
+            <MenuItemCubeNet number={8} activateCubeNet={activateCubeNet} />
+            <MenuItemCubeNet number={9} activateCubeNet={activateCubeNet} />
+            <MenuItemCubeNet number={10} activateCubeNet={activateCubeNet} />
+            <MenuItemCubeNet number={11} activateCubeNet={activateCubeNet} />
           </SubMenu>
-          <SubMenu label="Advanced Shapes"></SubMenu>
-          <SubMenu label="Add"></SubMenu> 
-          <SubMenu label="Subtract"></SubMenu>
-          <SubMenu label="Divide"></SubMenu>
-          <SubMenu label="3D Puzzle"></SubMenu>
+          <SubMenu label="Advanced Shapes" style={{ opacity: 0.5 }}></SubMenu>
+          <SubMenu label="Add" style={{ opacity: 0.5 }}></SubMenu>
+          <SubMenu label="Subtract" style={{ opacity: 0.5 }}></SubMenu>
+          <SubMenu label="Divide" style={{ opacity: 0.5 }}></SubMenu>
+          <SubMenu label="3D Puzzle" style={{ opacity: 0.5 }}></SubMenu>
           <div class="line"></div>
         </Menu>
       </Sidebar>
@@ -72,7 +72,7 @@ function Navigation({config}) {
   );
 }
 
-function Toggle({isToggled, setIsToggled}) {
+function Toggle({ isToggled, setIsToggled }) {
   const toggle = () => {
     setIsToggled(!isToggled);
   };
@@ -88,10 +88,10 @@ function Toggle({isToggled, setIsToggled}) {
 }
 
 
-function MenuItemCubeNet({number, activateCubeNet}){
-  const label = number.toString() ;
+function MenuItemCubeNet({ number, activateCubeNet }) {
+  const label = number.toString();
   const src = `nets/${number}.png`;
-  return(
+  return (
     <li class="menuitem-cubenet">
       <span>{label}</span>
       <img
