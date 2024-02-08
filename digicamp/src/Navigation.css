@@ -1,3 +1,22 @@
+
+#titel-bar img{
+  width: 100px;
+  margin: 16px;
+  display: inline-block;
+}
+
+h1{
+  margin: 30px 16px 30px 0;
+  display: inline-block;
+}
+
+#titel-bar{
+  margin: 16px 0 16px 0;
+  display: flex;
+  justify-content: lef;
+  align-items: center;
+}
+
 .hamburger {
   z-index: 2;
   position: fixed;
@@ -5,21 +24,21 @@
   left: 16px;
 }
 
-.hamburger:hover, button:hover, .toggle-button:hover, .ps-menu-root li img:hover {
+.hamburger:hover, button:hover, .toggle-container:hover, .ps-menu-root li img:hover {
   cursor: pointer;
 }
 
 .toggle-sides-container {
   z-index: 2;
-  margin-top: 16px;
-  left: 16px;
-  padding-bottom: 16px;
+  padding: 16px;
+  display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .toggle-sides-label {
   z-index: 2;
-  margin-left: 16px;
-  margin-top: 10px;
+
 }
 
 .toggle-container {
@@ -60,10 +79,44 @@
   max-height: 100px;
 }
 
-ul {
-  text-align: center;
+.ps-sidebar-container{
+  background-color: rgb(255, 255, 255, 1) !important;
 }
+
+
+.ps-submenu-expand-icon{
+  padding-bottom: 7px;
+}
+
+.menuitem-cubenet{
+  cursor: pointer;
+  text-align: center;
+  margin: 20px;
+  border-style: solid;
+  border-color: #eee;
+  padding: 10px;
+}
+
+.menuitem-cubenet:hover{
+  background-color: #eee;
+}
+
+.menuitem-cubenet span{
+  text-align: left;
+  display: block;
+}
+.menuitem-cubenet img{
+  margin-top: -5px;
+  margin-bottom: 10px;
+}
+
 
 li {
   text-align: left;
+}
+
+.line{
+  width: 100%;
+  border-style: solid none none none;
+  border-color: #eee;
 }

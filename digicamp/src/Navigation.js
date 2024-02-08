@@ -3,29 +3,12 @@ import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 import hamburger from "./assets/burger-menu.svg";
 import "./Navigation.css";
 
-
-
 function Navigation({config}) {
   const [collapsed, setCollapsed] = useState(true);
 
   function activateCubeNet(netNumber) {
     console.log("Activating net number " + netNumber);
     config.setNet(netNumber);
-  }
-
-  function Toggle({isToggled, setIsToggled}) {
-    const toggle = () => {
-      setIsToggled(!isToggled);
-    };
-
-    return (
-      <div
-        className={`toggle-container${isToggled ? " toggled" : ""}`}
-        onClick={toggle}
-      >
-        <div className={`toggle-button ${isToggled ? "toggled" : ""}`}></div>
-      </div>
-    );
   }
 
   const sidebarWidth = 250;
@@ -47,96 +30,78 @@ function Navigation({config}) {
         width={`${sidebarWidth}px`}
       >
         <Menu>
+          <div id="titel-bar">
+            <img src="./logo192.png"/>
+            <h1>CubeNet</h1>
+          </div>
+          <div class="line"></div>
           <div className="toggle-sides-container">
             <label className="toggle-sides-label">Helper Arrows</label>
             <Toggle isToggled={config.enableHighlight} setIsToggled={config.setEnableHighlight} />
           </div>
+          <div class="line"></div>
+
           <div className="toggle-sides-container">
-            <label className="toggle-sides-label">Skip Animation</label>
+
+            <label className="toggle-sides-label">No Animations</label>
             <Toggle isToggled={config.skipAnim} setIsToggled={config.setSkipAnim} />
           </div>
+          <div class="line"></div>
           <SubMenu label="Cube Nets">
-            <MenuItem> Net 1 </MenuItem>
-            <img
-              src="nets/1.png"
-              className="cube-net"
-              alt="cube net nr 1"
-              onClick={() => activateCubeNet(1)}
-            ></img>
-            <MenuItem> Net 2 </MenuItem>
-            <img
-              src="nets/2.png"
-              className="cube-net"
-              alt="cube net nr 2"
-              onClick={() => activateCubeNet(2)}
-            ></img>
-            <MenuItem> Net 3 </MenuItem>
-            <img
-              src="nets/3.png"
-              className="cube-net"
-              alt="cube net nr 3"
-              onClick={() => activateCubeNet(3)}
-            ></img>
-            <MenuItem> Net 4 </MenuItem>
-            <img
-              src="nets/4.png"
-              className="cube-net"
-              alt="cube net nr 4"
-              onClick={() => activateCubeNet(4)}
-            ></img>
-            <MenuItem> Net 5 </MenuItem>
-            <img
-              src="nets/5.png"
-              className="cube-net"
-              alt="cube net nr 5"
-              onClick={() => activateCubeNet(5)}
-            ></img>
-            <MenuItem> Net 6 </MenuItem>
-            <img
-              src="nets/6.png"
-              className="cube-net"
-              alt="cube net nr 6"
-              onClick={() => activateCubeNet(6)}
-            ></img>
-            <MenuItem> Net 7 </MenuItem>
-            <img
-              src="nets/7.png"
-              className="cube-net"
-              alt="cube net nr 7"
-              onClick={() => activateCubeNet(7)}
-            ></img>
-            <MenuItem> Net 8 </MenuItem>
-            <img
-              src="nets/8.png"
-              className="cube-net"
-              alt="cube net nr 8"
-              onClick={() => activateCubeNet(8)}
-            ></img>
-            <MenuItem> Net 9 </MenuItem>
-            <img
-              src="nets/9.png"
-              className="cube-net"
-              alt="cube net nr 9"
-              onClick={() => activateCubeNet(9)}
-            ></img>
-            <MenuItem> Net 10 </MenuItem>
-            <img
-              src="nets/10.png"
-              className="cube-net"
-              alt="cube net nr 10"
-              onClick={() => activateCubeNet(10)}
-            ></img>
-            <MenuItem> Net 11 </MenuItem>
-            <img
-              src="nets/11.png"
-              className="cube-net"
-              alt="cube net nr 11"
-              onClick={() => activateCubeNet(11)}
-            ></img>
+            <MenuItemCubeNet number={1} activateCubeNet={activateCubeNet}/>
+            <MenuItemCubeNet number={2} activateCubeNet={activateCubeNet}/>
+            <MenuItemCubeNet number={3} activateCubeNet={activateCubeNet}/>
+            <MenuItemCubeNet number={4} activateCubeNet={activateCubeNet}/>
+            <MenuItemCubeNet number={5} activateCubeNet={activateCubeNet}/>
+            <MenuItemCubeNet number={6} activateCubeNet={activateCubeNet}/>
+            <MenuItemCubeNet number={7} activateCubeNet={activateCubeNet}/>
+            <MenuItemCubeNet number={8} activateCubeNet={activateCubeNet}/>
+            <MenuItemCubeNet number={9} activateCubeNet={activateCubeNet}/>
+            <MenuItemCubeNet number={10} activateCubeNet={activateCubeNet}/>
+            <MenuItemCubeNet number={11} activateCubeNet={activateCubeNet}/>
           </SubMenu>
+          <SubMenu label="Advanced Shapes"></SubMenu>
+          <SubMenu label="Add"></SubMenu> 
+          <SubMenu label="Subtract"></SubMenu>
+          <SubMenu label="Divide"></SubMenu>
+          <SubMenu label="3D Puzzle"></SubMenu>
+          <div class="line"></div>
         </Menu>
       </Sidebar>
     </span>
   );
 }
+
+function Toggle({isToggled, setIsToggled}) {
+  const toggle = () => {
+    setIsToggled(!isToggled);
+  };
+
+  return (
+    <div
+      className={`toggle-container ${isToggled ? "toggled" : ""}`}
+      onClick={toggle}
+    >
+      <div className={`toggle-button ${isToggled ? "toggled" : ""}`}></div>
+    </div>
+  );
+}
+
+
+function MenuItemCubeNet({number, activateCubeNet}){
+  const label = number.toString() ;
+  const src = `nets/${number}.png`;
+  return(
+    <li class="menuitem-cubenet">
+      <span>{label}</span>
+      <img
+        src={src}
+        className="cube-net"
+        alt={`select ${label}`}
+        onClick={() => activateCubeNet(number)}
+      ></img>
+    </li>
+  );
+}
+
 export default Navigation;
