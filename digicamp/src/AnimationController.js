@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from 'react';
 import "./AnimationController.css";
 
 function AnimationControls({ setStep, currentStep, onStepChange }) {
@@ -13,6 +13,21 @@ function AnimationControls({ setStep, currentStep, onStepChange }) {
     onStepChange(currentStep, currentStep - 1);
     setStep(Math.max(currentStep - 1, 1));
   }
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === 'ArrowRight') {
+        nextStep();
+      }else if(event.key === 'ArrowLeft'){
+        prevStep();
+      }
+    };
+    
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+        document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [currentStep]);
 
   return (
     <div className="animation-control">
