@@ -45,6 +45,9 @@
   min-width: 100%;
   min-height: 100%;
   z-index: -1;
+  transform: rotateY(180deg);
+  -webkit-transform:rotateY(180deg);
+  -moz-transform:rotateY(180deg);
 }
 
 .ar-symbol {
