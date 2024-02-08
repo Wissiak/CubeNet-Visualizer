@@ -1,10 +1,12 @@
-import React, { useState } from "react";
-import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
+import React, { useState, useRef, useEffect } from "react";
+import { Sidebar, Menu, SubMenu } from "react-pro-sidebar";
 import hamburger from "./assets/burger-menu.svg";
 import "./Navigation.css";
 
 function Navigation({ config }) {
   const [collapsed, setCollapsed] = useState(true);
+  const navigationRef = useRef(null);
+
 
   function activateCubeNet(netNumber) {
     console.log("Activating net number " + netNumber);
@@ -13,8 +15,21 @@ function Navigation({ config }) {
 
   const sidebarWidth = 250;
 
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+        if (navigationRef.current && !navigationRef.current.contains(event.target)) {
+          setCollapsed(true);
+        }
+    };
+
+    if (navigationRef.current) {
+        document.addEventListener('click', handleOutsideClick);
+    }
+
+  }, []);
+
   return (
-    <span>
+    <span ref={navigationRef}>
       <img
         src={hamburger}
         width={50}
@@ -31,7 +46,7 @@ function Navigation({ config }) {
       >
         <Menu>
           <div id="titel-bar">
-            <img src="./logo192.png" />
+            <img src="./logo192.png" alt="logo"/>
             <h1>CubeNet</h1>
           </div>
           <div class="line"></div>
