@@ -16,11 +16,13 @@ const Directions = {
   Backward: "backward",
 }
 
-function Scene({config, step, direction, shouldPlayReverseAnim = true, backgroundTexture}) {
+function Scene({config, step, direction, shouldPlayAnim = true, backgroundTexture}) {
   const [isPlaying, setIsPlaying] = useState(true);
 
   useEffect(() => {
-    setIsPlaying(true);
+    if (shouldPlayAnim) {
+      setIsPlaying(true);
+    }
   }, [step]);
 
   const netPath = `/nets/net_${String(config.net).padStart(2, '0')}/`;
@@ -42,24 +44,23 @@ function Scene({config, step, direction, shouldPlayReverseAnim = true, backgroun
     action.play();
   });
 
-
   //workaround: when the component is updated this value rests the same
   mixer?.setTime(currentTime)
 
   useFrame((state, delta) => {
     setIsPlaying(false)
-    switch (direction) {
-      case Directions.Forward:
-        if (mixer?.time + delta < step - 1){
-          mixer?.update(delta);
-          setIsPlaying(true);
-        } else {
-          mixer?.setTime(step - 1);
-        }
-        currentTime = mixer?.time
-        break;
-      case Directions.Backward:
-        if (shouldPlayReverseAnim) {
+    if (shouldPlayAnim) {
+      switch (direction) {
+        case Directions.Forward:
+          if (mixer?.time + delta < step - 1){
+            mixer?.update(delta);
+            setIsPlaying(true);
+          } else {
+            mixer?.setTime(step - 1);
+          }
+          currentTime = mixer?.time
+          break;
+        case Directions.Backward:
           if (mixer?.time - delta*2 > step - 1){
             mixer?.update(-delta*2);
             setIsPlaying(true);
@@ -67,24 +68,31 @@ function Scene({config, step, direction, shouldPlayReverseAnim = true, backgroun
             mixer?.setTime(step - 1);
           }
           currentTime = mixer?.time
-        } else {
+          break;
+      }
+    } else {
+      switch (direction) {
+        case Directions.Forward:
           mixer?.setTime(step - 1);
-        }
-        break;
+          break;
+        case Directions.Backward:
+          mixer?.setTime(step - 1);
+          break;
+      }
     }
   })
 
   return (
     <>
-      <group dispose={null}>
-        <primitive object={gltf.scene} />
-        <primitive object={grid.scene} />
-        {config.enableHighlight && !isPlaying ? <NetHelper netPath={netPath} step={step} active/> : <></>}
-        {backgroundTexture && (
-          <mesh position={[0, 0, -5]} // Position the mesh behind your objects
-          >
-          </mesh>)}
-      </group>
+    <group dispose={null}>
+    <primitive object={gltf.scene} />
+    <primitive object={grid.scene} />
+    {config.enableHighlight && !isPlaying ? <NetHelper netPath={netPath} step={step} active/> : <></>}
+    {backgroundTexture && (
+      <mesh position={[0, 0, -5]} // Position the mesh behind your objects
+      >
+      </mesh>)}
+    </group>
     </>
   );
 }
@@ -149,11 +157,11 @@ function App({ config }) {
           decay={0}
           intensity={Math.PI}
         />
-        <Scene step={currentStep} direction={direction} shouldPlayReverseAnim={!config.skipReverseAnim} config={config} />
+        <Scene step={currentStep} direction={direction} shouldPlayAnim={!config.skipAnim} config={config} />
         <pointLight position={[-10, -10, -10]} decay={0} intensity={Math.PI} />
       </Canvas>
 
-      <AnimationControls setStep={setStep} currentStep={currentStep} onStepChange={changeDirection} config={config} />
+      <AnimationControls setStep={setStep} currentStep={currentStep} onStepChange={changeDirection} />
     </>
   );
 }

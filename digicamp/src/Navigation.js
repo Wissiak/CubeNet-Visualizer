@@ -52,8 +52,8 @@ function Navigation({config}) {
             <Toggle isToggled={config.enableHighlight} setIsToggled={config.setEnableHighlight} />
           </div>
           <div className="toggle-sides-container">
-            <label className="toggle-sides-label">Skip Reverse Animation</label>
-            <Toggle isToggled={config.skipReverseAnim} setIsToggled={config.setSkipReverseAnim} />
+            <label className="toggle-sides-label">Skip Animation</label>
+            <Toggle isToggled={config.skipAnim} setIsToggled={config.setSkipAnim} />
           </div>
           <SubMenu label="Cube Nets">
             <MenuItem> Net 1 </MenuItem>

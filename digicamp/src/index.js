@@ -6,13 +6,13 @@ import reportWebVitals from "./reportWebVitals";
 import Navigation from "./Navigation";
 
 function Main() {
-  const [skipReverseAnim, setSkipReverseAnim] = useState(false);
+  const [skipAnim, setSkipAnim] = useState(false);
   const [enableHighlight, setEnableHighlight] = useState(true);
   const [net, setNet] = useState(1);
 
   const config = {
-    skipReverseAnim: skipReverseAnim,
-    setSkipReverseAnim: setSkipReverseAnim,
+    skipAnim: skipAnim,
+    setSkipAnim: setSkipAnim,
     enableHighlight: enableHighlight,
     setEnableHighlight: setEnableHighlight,
     net: net,

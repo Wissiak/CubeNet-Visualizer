@@ -1,23 +1,17 @@
 import React from "react";
 import "./AnimationController.css";
 
-let lastAction = new Date().getTime() - 1000; 
-
-function AnimationControls({ setStep, currentStep, onStepChange, config }) {
+function AnimationControls({ setStep, currentStep, onStepChange }) {
   const numberOfSteps = 6;
 
   function nextStep() {
-    const now = new Date().getTime();
     onStepChange(currentStep, currentStep + 1);
     setStep(Math.min(currentStep + 1, numberOfSteps));
-    lastAction = now;
   }
 
   function prevStep() {
-    const now = new Date().getTime();
     onStepChange(currentStep, currentStep - 1);
     setStep(Math.max(currentStep - 1, 1));
-    lastAction = now;
   }
 
   return (
