@@ -3,12 +3,15 @@ import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 import hamburger from "./assets/burger-menu.svg";
 import "./Navigation.css";
 
-function activateCubeNet(netNumber) {
-  console.log("Activating net number " + netNumber);
-}
+
 
 function Navigation({config}) {
   const [collapsed, setCollapsed] = useState(true);
+
+  function activateCubeNet(netNumber) {
+    console.log("Activating net number " + netNumber);
+    config.setNet(netNumber);
+  }
 
   function Toggle({isToggled, setIsToggled}) {
     const toggle = () => {
@@ -45,7 +48,7 @@ function Navigation({config}) {
       >
         <Menu>
           <div className="toggle-sides-container">
-            <label className="toggle-sides-label">Enable Highlighting</label>
+            <label className="toggle-sides-label">Helper Arrows</label>
             <Toggle isToggled={config.enableHighlight} setIsToggled={config.setEnableHighlight} />
           </div>
           <div className="toggle-sides-container">

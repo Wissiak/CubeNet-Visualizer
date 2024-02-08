@@ -7,12 +7,16 @@ import Navigation from "./Navigation";
 
 function Main() {
   const [skipReverseAnim, setSkipReverseAnim] = useState(false);
-  const [enableHighlight, setEnableHighlight] = useState(false);
+  const [enableHighlight, setEnableHighlight] = useState(true);
+  const [net, setNet] = useState(1);
+
   const config = {
     skipReverseAnim: skipReverseAnim,
     setSkipReverseAnim: setSkipReverseAnim,
     enableHighlight: enableHighlight,
-    setEnableHighlight: setEnableHighlight
+    setEnableHighlight: setEnableHighlight,
+    net: net,
+    setNet: setNet
   };
   return (
     <>

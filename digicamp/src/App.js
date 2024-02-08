@@ -6,6 +6,7 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
 import {AnimationControls} from "./AnimationController.js";
 import * as THREE from "three";
+import NetHelper from "./NetHelper.js";
 
 let currentTime = 0
 
@@ -14,11 +15,15 @@ const Directions = {
   Backward: "backward",
 }
 
-function Scene({step, direction, shouldPlayReverseAnim = true}) {
-  const gltf = useLoader(GLTFLoader, "/nets/case_01.glb");
-  const grid = useLoader(GLTFLoader, "/nets/case_01_grid.glb");
+function Scene({config, step, direction, shouldPlayReverseAnim = true}) {
+  const netPath = `/nets/net_${String(config.net).padStart(2, '0')}/`;
+  const gltf = useLoader(GLTFLoader, netPath + "net.glb");
+
+
+  const grid = useLoader(GLTFLoader, netPath + "grid.glb");
 
   const mixer = new THREE.AnimationMixer(gltf.scene);
+
 
   gltf.animations.forEach((clip) => {
     const action = mixer.clipAction(clip);
@@ -28,6 +33,7 @@ function Scene({step, direction, shouldPlayReverseAnim = true}) {
     action.play();
   });
 
+    
   //workaround: when the component is updated this value rests the same
   mixer?.setTime(currentTime)
 
@@ -51,8 +57,8 @@ function Scene({step, direction, shouldPlayReverseAnim = true}) {
             // skip animation steps if difference too large
             mixer?.setTime(step - 1);
           }
-          if (mixer?.time - delta > step - 1){
-            mixer?.update(-delta);
+          if (mixer?.time - delta*2 > step - 1){
+            mixer?.update(-delta*2);
           } else {
             mixer?.setTime(step - 1);
           }
@@ -66,8 +72,11 @@ function Scene({step, direction, shouldPlayReverseAnim = true}) {
 
   return (
     <>
-      <primitive object={gltf.scene} />
-      <primitive object={grid.scene} />
+      <group dispose={null}>
+        <primitive object={gltf.scene} />
+        <primitive object={grid.scene} />
+        {config.enableHighlight ? <NetHelper netPath={netPath} step={step}/> : <></>}
+      </group>
     </>
   );
 }
@@ -81,11 +90,19 @@ function App({config}) {
       setDirection(old < next ? Directions.Forward : Directions.Backward);
   }
 
+  useEffect(() => {
+    setStep(1);
+    setDirection(Directions.Forward);
+  }, [config.net]);
+
   return (
     <>
       <Canvas style={{ width: "100%", height: "100%" }}>
         <OrbitControls makeDefault 
             target={[0, 0.5, 0]}
+            maxPolarAngle={Math.PI/2-0.05}
+            minDistance={1.5}
+            maxDistance={40}
           />
 
         <PerspectiveCamera
@@ -103,7 +120,7 @@ function App({config}) {
           decay={0}
           intensity={Math.PI}
         />
-        <Scene step={currentStep} direction={direction} shouldPlayReverseAnim={!config.skipReverseAnim}/>
+        <Scene step={currentStep} direction={direction} shouldPlayReverseAnim={!config.skipReverseAnim} config={config}/>
         <pointLight position={[-10, -10, -10]} decay={0} intensity={Math.PI} />
       </Canvas>
 

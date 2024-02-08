@@ -5,7 +5,7 @@
   left: 16px;
 }
 
-.hamburger:hover, button:hover, .toggle-button:hover {
+.hamburger:hover, button:hover, .toggle-button:hover, .ps-menu-root li img:hover {
   cursor: pointer;
 }
 

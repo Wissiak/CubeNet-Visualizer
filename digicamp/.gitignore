@@ -11,6 +11,9 @@
 # production
 /build
 
+# Houdini Backup Files
+/public/nets/backup
+
 # misc
 .DS_Store
 .env.local
