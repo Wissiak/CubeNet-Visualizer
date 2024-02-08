@@ -24,7 +24,7 @@ function Scene({ config, step, direction, shouldPlayAnim = true, backgroundTextu
     if (shouldPlayAnim) {
       setIsPlaying(true);
     }
-  }, [step]);
+  }, [step, shouldPlayAnim]);
 
   const netPath = `/nets/net_${String(config.net).padStart(2, '0')}/`;
   const gltf = useLoader(GLTFLoader, netPath + "net.glb");
@@ -69,6 +69,7 @@ function Scene({ config, step, direction, shouldPlayAnim = true, backgroundTextu
           }
           currentTime = mixer?.time;
           break;
+        default:
       }
     } else {
       mixer?.setTime(step - 1);
@@ -128,7 +129,7 @@ function App({ config }) {
   return (
     <>
       <video playsInline autoPlay muted ref={videoRef} className="bg-video" style={videoBackgroundStyle} />
-      <img src={ar} width={45} className="ar-symbol" onClick={toggleCameraFeed} />
+      <img src={ar} width={45} className="ar-symbol" onClick={toggleCameraFeed} alt="ar-symbol" />
       <Canvas style={{ width: "100%", height: "100%" }}>
         <OrbitControls makeDefault
           target={[0, 0.5, 0]}
