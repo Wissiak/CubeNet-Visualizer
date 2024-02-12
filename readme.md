@@ -1,6 +1,6 @@
 # CubeNet Visualizer
 
-https://wissiak.github.io/digicamp/
+https://wissiak.github.io/CubeNet-Visualizer/
 
 This project resulted from an interdisciplinary course by a group of students composed of students specializing in therapeutic pedagogy and IT students. From our different backgrounds we have discovered spatial thinking as a problem domain for primary and secondary school students.  Our goal is to offer a service for these students to solidate their understanding in spatial thinking.  The specific problem we focus on is the folding of cube nets since this is a common exercise for primary and secondary school students in Switzerland. 
 Today, these exercises often took place by cutting out a cube net by hand, folding and glueing it which is both time consuming and error prone. With our application this process is simplified by virtualization which also brings other advantages as reversing steps or trying out other cube nets.
